@@ -2,6 +2,8 @@
 
 A synthetic-data demo of React, Spring Cloud Gateway, three Spring Boot services, Excel-backed Drools account selection and PostgreSQL. There is no Eureka server or discovery-client dependency.
 
+**Live application:** [Ledger Manager](https://yarrabothusuresh.github.io/ai_micro_service_app/). Create a sample posting to see its selected account and saved decision details.
+
 ## Layout
 
 - `gateway`: public API routes, CORS and Cloud Run invocation authentication.
@@ -125,7 +127,7 @@ The free allowances are usage-limited. Request-based billing, minimum instances 
 
 ## Implementation status
 
-The backend suite covers five Excel/Drools tests, six PostgreSQL integration tests and six real-HTTP Gateway tests including CORS and the API root. PostgreSQL integration tests now target version 18 to match Neon. The local launcher previously passed health, posting, retry, repeat-start and persistence checks; process ownership guards rejected mismatched start times and entrypoints. Docker Desktop must be running for local tests and startup.
+All 17 backend tests and the React production build passed in [GitHub CI](https://github.com/yarrabothusuresh/ai_micro_service_app/actions/runs/41308026090): five Excel/Drools tests, six PostgreSQL 18 integration tests and six real-HTTP Gateway tests including CORS and the API root. The local launcher previously passed health, posting, retry, repeat-start and persistence checks; process ownership guards rejected mismatched start times and entrypoints. Docker Desktop must be running for local tests and startup.
 
-All four Java services are deployed. The cloud workflow saved one synthetic posting with its Excel-selected account and rule version, read it back, returned the same record on retry, and loaded the dashboard. Anonymous access to each backend returned 403, while Gateway and the configured frontend CORS preflight succeeded. The PostgreSQL 18-compatible Flyway image was redeployed at the same Posting Service URL. Browser visual verification and the alternative Docker-based Java runtime remain separate checks. See `IMPLEMENTATION_PLAN.md` for the ordered work.
+All four Java services and React are deployed. The cloud workflow saved a synthetic SALE posting, read its decision audit, returned the same record on retry, and loaded the dashboard. Anonymous access to each backend returned 403, while Gateway and the configured frontend CORS preflight succeeded. The PostgreSQL 18-compatible Flyway image was redeployed at the same Posting Service URL and retained the saved record. Headless Chrome verified the live React purchase form selected DEMO-5001, updated the dashboard and exposed its saved rule version. Desktop (1440 × 1000) and mobile (390 × 844) checks passed. Browser testing identified a missing favicon, which is supplied as a base-path-aware SVG. The alternative Docker-based Java runtime remains unverified. See `IMPLEMENTATION_PLAN.md` for the ordered work.
 "# ai_micro_service_app" 

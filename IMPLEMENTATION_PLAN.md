@@ -108,7 +108,9 @@ Do not paste database passwords, personal access tokens or service-account keys 
 
 Cloud backend complete: all four container images built and deployed, Neon migration applied, a posting saved through the public Gateway with its Excel decision audit, duplicate retry returned the same record, and the dashboard loaded. The three backend URLs reject anonymous access. Gateway CORS permits `https://yarrabothusuresh.github.io`. A PostgreSQL 18-compatible Flyway image was redeployed without changing the Posting Service URL. Service-wide and revision limits are one instance with minimum instances zero.
 
-Remaining: finish React Pages publication, rerun the PostgreSQL 18 integration suite with an available Docker engine, browser visual/interaction review and the alternative containerized local runtime. The GitHub connector has read-only access to the selected repository; the frontend publisher can use the user's existing cached Git login for GitHub administration instead.
+React is published at `https://yarrabothusuresh.github.io/ai_micro_service_app/`. All 17 backend tests, including six real PostgreSQL 18 integration tests, and the React build passed in GitHub CI. Headless Chrome exercised a live purchase submission, selected DEMO-5001, refreshed the saved row and totals, and displayed its rule audit. Desktop and mobile layouts passed. The frontend publisher used the user's existing cached Git login to configure Pages and deploy; it can also use GitHub CLI sign-in.
+
+Remaining optional check: the alternative containerized local Java runtime. Docker Desktop was unavailable during the latest local test attempt; the PostgreSQL 18 integration suite succeeded on GitHub's Linux runner.
 
 Target a working local and deployed demonstration of one complete posting workflow. Include validation, database migrations, duplicate protection, decision audit, basic tests and usable UI states. Use the packaged sample rules for this first version. A rule-upload/approval interface, advanced reporting and integration with existing production systems can follow after the complete demo works.
 
