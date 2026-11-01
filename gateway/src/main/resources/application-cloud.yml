@@ -1,0 +1,7 @@
+server:
+  forward-headers-strategy: framework
+services:
+  ui-url: ${UI_SERVICE_URL}
+  posting-url: ${POSTING_SERVICE_URL}
+  cloud-auth-enabled: true
+  frontend-origins: ${FRONTEND_ORIGINS}

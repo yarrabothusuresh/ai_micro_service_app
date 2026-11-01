@@ -1,0 +1,5 @@
+server:
+  forward-headers-strategy: framework
+services:
+  posting-url: ${POSTING_SERVICE_URL}
+  cloud-auth-enabled: true

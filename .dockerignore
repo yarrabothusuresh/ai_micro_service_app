@@ -1,0 +1,12 @@
+.git
+**/node_modules
+**/target
+**/dist
+.env*
+.local
+.tmp
+docs/design
+**/*.inspect.ndjson
+**/*.log
+**/credentials*.json
+**/service-account*.json

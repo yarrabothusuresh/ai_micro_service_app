@@ -1,0 +1,25 @@
+# Explicit backend build context. Local configuration and credentials never enter Cloud Build.
+*
+!Dockerfile
+!pom.xml
+!cloudbuild.yaml
+!contracts/
+!contracts/**
+!rules-service/
+!rules-service/**
+!posting-service/
+!posting-service/**
+!ui-service/
+!ui-service/**
+!gateway/
+!gateway/**
+**/target/**
+**/node_modules/**
+**/*.inspect.ndjson
+**/*.log
+**/.env*
+**/credentials*.json
+**/service-account*.json
+.git/**
+.local/**
+.tmp/**

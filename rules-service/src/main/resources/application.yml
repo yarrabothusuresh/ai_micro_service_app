@@ -1,0 +1,17 @@
+server:
+  port: ${PORT:8082}
+spring:
+  application:
+    name: rules-service
+  mvc:
+    problemdetails:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true

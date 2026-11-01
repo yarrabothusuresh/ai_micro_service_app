@@ -1,0 +1,20 @@
+server:
+  port: ${PORT:8081}
+spring:
+  application:
+    name: ui-service
+  mvc:
+    problemdetails:
+      enabled: true
+services:
+  posting-url: ${POSTING_SERVICE_URL:http://localhost:8083}
+  cloud-auth-enabled: ${CLOUD_AUTH_ENABLED:false}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true

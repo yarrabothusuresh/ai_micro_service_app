@@ -1,0 +1,28 @@
+server:
+  port: ${PORT:8083}
+spring:
+  application:
+    name: posting-service
+  mvc:
+    problemdetails:
+      enabled: true
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:15432/ledger_demo}
+    username: ${DATABASE_USERNAME:ledger_demo}
+    password: ${DATABASE_PASSWORD:local-demo-only}
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 0
+      connection-timeout: 10000
+services:
+  rules-url: ${RULES_SERVICE_URL:http://localhost:8082}
+  cloud-auth-enabled: ${CLOUD_AUTH_ENABLED:false}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
