@@ -98,7 +98,7 @@ function Publish-LedgerService {
     $file = Join-Path $script:CloudLocal ($Name + '-environment.json')
     $Environment | ConvertTo-Json | Set-Content -LiteralPath $file -Encoding UTF8
     $arguments = @('run','deploy',$Name,"--image=$Image",('--project=' + $Prepared.projectId),('--region=' + $Prepared.region),
-        '--platform=managed',"--service-account=$Account",'--port=8080','--cpu=1',"--memory=$Memory",'--min-instances=0','--max-instances=1',
+        '--platform=managed',"--service-account=$Account",'--port=8080','--cpu=1',"--memory=$Memory",'--min-instances=0','--max=1','--max-instances=1',
         '--concurrency=10','--timeout=120s','--ingress=all','--no-allow-unauthenticated',"--env-vars-file=$file",'--labels=app=ledger-manager',
         '--startup-probe=httpGet.path=/actuator/health/liveness,httpGet.port=8080,initialDelaySeconds=0,timeoutSeconds=5,periodSeconds=10,failureThreshold=24', '--quiet')
     if ($PasswordSecret) { $arguments += "--set-secrets=DATABASE_PASSWORD=$PasswordSecret" }

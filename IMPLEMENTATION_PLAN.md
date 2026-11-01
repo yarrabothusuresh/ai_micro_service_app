@@ -75,12 +75,12 @@ Build and verify Gateway locally before deployment. Deploy it after its backend 
 | Detail | Current state / action |
 | --- | --- |
 | GitHub account | Connector authenticated as `vijayabhargavidba` |
-| Repository | Public sample-data repository `vijayabhargavidba/account-posting-demo` authorized |
+| Repository | Public repository `yarrabothusuresh/ai_micro_service_app` selected by the user; initial source commit published |
 | GCP project ID | `ledgermanager` (project number `434796230124`); access verified |
 | GCP account | An active CLI account was found; use its existing authenticated session |
 | GCP billing and permissions | Billing is enabled; verify deployment permissions before enabling APIs |
 | Region | Cloud Run `us-east4` selected near the existing Neon AWS Ohio database |
-| Neon database | Existing project `broad-firefly-45124778`, branch `br-dark-queen-b43vm0ap` (`production`), PostgreSQL 18; connection details pending |
+| Neon database | Existing PostgreSQL 18 database connected; V1 migration applied; password stored in Secret Manager and omitted from local settings |
 
 Do not paste database passwords, personal access tokens or service-account keys into chat or commit them to Git. Provide non-secret project/repository/database identifiers when requested; enter secrets through local ignored configuration or the provider secret mechanism.
 
@@ -98,7 +98,7 @@ Do not paste database passwords, personal access tokens or service-account keys 
 ### Verified local progress
 
 - Created the Java services, React UI, Excel decision table, database migration, Docker configuration and Windows launcher scripts.
-- All 16 backend tests passed: five rules tests, six PostgreSQL tests and five Gateway tests.
+- The backend suite covers 17 tests: five rules, six PostgreSQL and six Gateway cases. PostgreSQL integration now targets version 18 to match Neon.
 - React production build passed.
 - `start.ps1` starts PostgreSQL in Docker and the Java services plus React on the host, waits for health checks and verifies the dashboard through Gateway.
 - A synthetic posting was saved with its Excel-selected account; retrying it returned the same posting.
@@ -106,7 +106,9 @@ Do not paste database passwords, personal access tokens or service-account keys 
 - Restarting retained the saved posting. All five application processes and PostgreSQL were healthy at the end of verification.
 - Process identity validation rejected mismatched start times and entrypoints. Runtime records and logs remain in ignored `.local` storage.
 
-Remaining: browser visual/interaction review, container-image verification, GitHub publication, Neon connection/secrets configuration, GCP deployment and cloud smoke testing. GCP project and billing access are verified. No application services have been deployed to GCP yet.
+Cloud backend complete: all four container images built and deployed, Neon migration applied, a posting saved through the public Gateway with its Excel decision audit, duplicate retry returned the same record, and the dashboard loaded. The three backend URLs reject anonymous access. Gateway CORS permits `https://yarrabothusuresh.github.io`. A PostgreSQL 18-compatible Flyway image was redeployed without changing the Posting Service URL. Service-wide and revision limits are one instance with minimum instances zero.
+
+Remaining: finish React Pages publication, rerun the PostgreSQL 18 integration suite with an available Docker engine, browser visual/interaction review and the alternative containerized local runtime. The GitHub connector has read-only access to the selected repository; the frontend publisher can use the user's existing cached Git login for GitHub administration instead.
 
 Target a working local and deployed demonstration of one complete posting workflow. Include validation, database migrations, duplicate protection, decision audit, basic tests and usable UI states. Use the packaged sample rules for this first version. A rule-upload/approval interface, advanced reporting and integration with existing production systems can follow after the complete demo works.
 

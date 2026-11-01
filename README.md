@@ -105,13 +105,17 @@ The complete procedure and resource list are in [docs/PUBLISHING.md](docs/PUBLIS
 .\publish.ps1                  # Build, deploy, configure routes and run the cloud smoke test
 ```
 
-Selected GCP project: `ledgermanager`, project number `434796230124`. Use `--project=ledgermanager` explicitly; do not depend on or change another project's CLI default. Billing is enabled and project access was verified. Backend deployment has not yet been performed.
+The backend is deployed to GCP project `ledgermanager`, region `us-east4`. Its public API is [Ledger Manager Gateway](https://ledger-gateway-ouadcuheya-uk.a.run.app/); the root returns API information. [Dashboard JSON](https://ledger-gateway-ouadcuheya-uk.a.run.app/api/ui/dashboard) exercises Gateway, UI Service, Posting Service and Neon. The three backend services require platform authentication. Google manages the stable service DNS names; no Eureka is used.
+
+Use `--project=ledgermanager` explicitly; the project number is `434796230124`. Scripts do not change another project's CLI default. Backend settings and deployment records in `.local` contain URLs and secret references, not the database password.
 
 Use one Cloud Run service for each Java application. All listen on Cloud Run's `PORT` environment variable. Use the assigned stable service HTTPS URLs for `RULES_SERVICE_URL`, `POSTING_SERVICE_URL` and `UI_SERVICE_URL`. Backend services require Cloud Run IAM authentication; enable `CLOUD_AUTH_ENABLED=true` in their callers and grant only the relevant service accounts invocation access. Gateway adds `X-Serverless-Authorization` separately from an end-user Authorization header.
 
-Configure Posting Service with `DATABASE_URL` (a PostgreSQL JDBC URL with TLS), `DATABASE_USERNAME` and `DATABASE_PASSWORD` from the chosen Neon database. Store the password in the provider secret store. Do not expose it to React or commit it to Git.
+Configure Posting Service with `DATABASE_URL` (pooled PostgreSQL JDBC with certificate verification), `DATABASE_MIGRATION_URL` (the direct endpoint), `DATABASE_USERNAME` and a pinned `DATABASE_PASSWORD` Secret Manager version. Flyway 11.20.3 supports the Neon PostgreSQL 18 database. Do not expose the password to React or commit it to Git.
 
-React's production build uses `VITE_API_BASE_URL` for the Gateway HTTPS URL and `VITE_BASE_PATH=/account-posting-demo/` for GitHub Pages project hosting. Set Gateway `FRONTEND_ORIGINS` to the origin `https://vijayabhargavidba.github.io` (no repository path).
+React's production build uses `VITE_API_BASE_URL` for the Gateway HTTPS URL and `VITE_BASE_PATH=/ai_micro_service_app/` for GitHub Pages project hosting. Set Gateway `FRONTEND_ORIGINS` to the origin `https://yarrabothusuresh.github.io` (no repository path).
+
+After committing the reviewed source to `main`, run `publish-frontend.ps1` to push to the approved public repository and deploy React through GitHub Pages. It uses an existing GitHub CLI or cached Git login, checks administrator access, configures the API URL and watches the workflow. Run `verify-cloud.ps1` to check the backend without creating data, or add `-SmokeTest` to save and verify one sample posting.
 
 Deploy and verify in this order: database, rules, posting, UI API, Gateway, React. Cloud URLs are infrastructure-managed stable hostnames; no custom domain purchase or private DNS server is required for this demo. Protecting invocation with IAM does not by itself make an endpoint network-private.
 
@@ -121,7 +125,7 @@ The free allowances are usage-limited. Request-based billing, minimum instances 
 
 ## Implementation status
 
-All 16 backend tests passed: five Excel/Drools tests, six PostgreSQL tests and five real-HTTP Gateway tests including CORS. The React production build passed. The local launcher was exercised against the real services: all five process health checks passed, a posting was saved through Gateway and selected its Excel-defined account, a retry returned the same posting, repeated startup reused the existing processes, and stop/restart preserved the saved record. Process ownership guards also rejected mismatched start times and entrypoints. The application was left running locally after verification.
+The backend suite covers five Excel/Drools tests, six PostgreSQL integration tests and six real-HTTP Gateway tests including CORS and the API root. PostgreSQL integration tests now target version 18 to match Neon. The local launcher previously passed health, posting, retry, repeat-start and persistence checks; process ownership guards rejected mismatched start times and entrypoints. Docker Desktop must be running for local tests and startup.
 
-Cloud deployment, the alternative Docker-based Java runtime and browser visual verification are pending. GitHub source publication requires repository creation/authentication; the GitHub connector is connected but the local GitHub CLI is not signed in. Neon hostname, database name, username and securely configured credentials are still required for cloud deployment. See `IMPLEMENTATION_PLAN.md` for the ordered work.
+All four Java services are deployed. The cloud workflow saved one synthetic posting with its Excel-selected account and rule version, read it back, returned the same record on retry, and loaded the dashboard. Anonymous access to each backend returned 403, while Gateway and the configured frontend CORS preflight succeeded. The PostgreSQL 18-compatible Flyway image was redeployed at the same Posting Service URL. Browser visual verification and the alternative Docker-based Java runtime remain separate checks. See `IMPLEMENTATION_PLAN.md` for the ordered work.
 "# ai_micro_service_app" 

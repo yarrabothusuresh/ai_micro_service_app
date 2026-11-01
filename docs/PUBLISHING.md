@@ -71,9 +71,15 @@ After this protected rules deployment succeeds, use `publish.ps1 -Continue` to r
 
 ## 4. Publish the React UI
 
-Backend publication does not require GitHub. To publish React to the agreed public sample repository and GitHub Pages, GitHub CLI authentication or equivalent repository administration access is still needed. The repository name is `vijayabhargavidba/account-posting-demo`.
+The approved public repository is `yarrabothusuresh/ai_micro_service_app`. Commit the reviewed source on `main`, then run:
 
-Once the repository and Pages are configured, set its non-secret Actions variable `GATEWAY_URL` to the deployed Gateway HTTPS URL and run the `Deploy React to GitHub Pages` workflow. It builds with base path `/account-posting-demo/`. Gateway allows the origin `https://vijayabhargavidba.github.io`; origin configuration must not include a repository path.
+```powershell
+.\publish-frontend.ps1
+```
+
+This checks the repository and administrator identity, performs an ordinary Git push, sets the non-secret Actions variable `GATEWAY_URL`, enables Pages with GitHub Actions, and dispatches and watches the React deployment. It uses GitHub CLI sign-in or Git's existing cached sign-in for `yarrabothusuresh`. A reused OAuth token stays in process memory and is cleared afterwards; it is never printed or written to a file. If neither login exists, complete `gh auth login --hostname github.com --web` yourself.
+
+The workflow builds with base path `/ai_micro_service_app/`. The intended frontend address is `https://yarrabothusuresh.github.io/ai_micro_service_app/`. Gateway allows its origin `https://yarrabothusuresh.github.io`; origin configuration must not include a repository path.
 
 ## Source and credential handling
 

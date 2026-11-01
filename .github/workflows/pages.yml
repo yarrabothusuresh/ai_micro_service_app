@@ -28,7 +28,7 @@ jobs:
         working-directory: frontend
         env:
           VITE_API_BASE_URL: ${{ vars.GATEWAY_URL }}
-          VITE_BASE_PATH: /account-posting-demo/
+          VITE_BASE_PATH: /ai_micro_service_app/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

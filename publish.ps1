@@ -67,6 +67,19 @@ Grant-LedgerInvocation -Prepared $prepared -Service 'ledger-posting' -Member ('s
 Grant-LedgerInvocation -Prepared $prepared -Service 'ledger-gateway' -Member 'allUsers'
 Save-DeploymentState
 Write-Host ('Gateway published: ' + $state.urls.gateway)
+$gatewayReady = $false
+for ($attempt = 1; $attempt -le 12; $attempt++) {
+    try {
+        $info = Invoke-RestMethod -Uri ($state.urls.gateway + '/') -TimeoutSec 10
+        if ($info.application -ne 'Ledger Manager API') { throw 'Unexpected Gateway response.' }
+        $gatewayReady = $true
+        break
+    } catch {
+        # Public invocation policy may need a few seconds to reach the serving frontend.
+        if ($attempt -lt 12) { Start-Sleep -Seconds 5 }
+    }
+}
+if (-not $gatewayReady) { throw 'Gateway was deployed, but public readiness could not be verified. Run verify-cloud.ps1 to diagnose.' }
 & (Join-Path $script:CloudRoot 'scripts\smoke-test.ps1') -GatewayUrl $state.urls.gateway
 & (Join-Path $script:CloudRoot 'verify-cloud.ps1')
 Write-Host ('Set the GitHub repository variable GATEWAY_URL to ' + $state.urls.gateway + ' and run the Pages deployment workflow for React.')

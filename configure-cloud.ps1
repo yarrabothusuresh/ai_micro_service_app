@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param([string]$ProjectId='ledgermanager', [string]$Region='us-east4', [string]$DatabaseHost,
       [string]$DatabaseName, [string]$DatabaseUsername,
-      [string]$FrontendOrigin='https://vijayabhargavidba.github.io',
+      [string]$FrontendOrigin='https://yarrabothusuresh.github.io',
       [string]$PasswordSecret='ledger-neon-password', [string]$ExistingSecretVersion)
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'scripts\cloud-common.ps1')
